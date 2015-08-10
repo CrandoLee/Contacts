@@ -42,6 +42,7 @@ import java.util.Locale;
 
 import com.example.wechatsample.R;
 
+
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	public interface IconTabProvider {

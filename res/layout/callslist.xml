@@ -20,10 +20,11 @@
                 android:id="@+id/call_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:textSize="20sp" />
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="16dp"
+                android:gravity="bottom"
+                android:textSize="15sp"
+                 />
         </LinearLayout>
 
         <LinearLayout
@@ -35,28 +36,34 @@
                 android:id="@+id/call_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:textSize="15sp" />
+                android:layout_gravity="top"
+                android:layout_marginLeft="16dp"
+                android:gravity="top"
+                android:textSize="13sp"
+                android:textColor="#717171"
+                 />
 
             <TextView
                 android:id="@+id/call_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:textSize="15sp" />
+                android:layout_gravity="top"
+                android:layout_marginLeft="16dp"
+                android:gravity="top"
+                android:textSize="13sp" 
+                android:textColor="#717171"
+                />
 
             <TextView
                 android:id="@+id/call_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:textSize="15sp" />
+                android:layout_gravity="top"
+                android:layout_marginLeft="16dp"
+                android:gravity="top"
+                android:textSize="13sp" 
+                android:textColor="#717171"
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -68,13 +75,13 @@
         >
 
         <ImageButton
-            android:id="@+id/detail_button"
+            android:id="@+id/call_detail_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/navigate_right"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="16dp"
              />
     </RelativeLayout>
 
