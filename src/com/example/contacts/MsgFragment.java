@@ -3,11 +3,15 @@ package com.example.contacts;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import com.example.wechatsample.R;
 import com.example.contacts.ContactsFragment.MessageHandler;
 
+import android.R.bool;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -90,7 +94,7 @@ public class MsgFragment extends Fragment {
 	// 更新视图
 	public void updateView() {
 		List<MyMsg> listTemp = new ArrayList<MyMsg>();
-		Uri uri = Uri.parse(SMS_URI_ALL);
+		Uri uri = Uri.parse(SMS_URI_INBOX);
 		String[] projection = new String[] { "_id", "address", "person",
 	                "body", "date", "type" };
         Cursor cursor = this.getActivity().getContentResolver().query(uri, projection, null, null,
@@ -107,17 +111,33 @@ public class MsgFragment extends Fragment {
         int smsbodyColumn = cursor.getColumnIndex("body");
         int dateColumn = cursor.getColumnIndex("date");
         int typeColumn = cursor.getColumnIndex("type");
+        String phoneNumberTemp = "";
         
         if (cursor != null) {
             while (cursor.moveToNext()) {
+            	
             	myMsg= new MyMsg(); 
+            	phoneNum = "";
             	//name = cursor.getString(nameColumn);
                 //Log.d("tag","msg_name:" + name);
-
+            	name = "";
     			date = new Date(Long.parseLong(cursor.getString(dateColumn)));
     			time = sfd.format(date);
     			myMsg.setDate(time);
     			phoneNum = cursor.getString(phoneNumberColumn);
+    			String numTmp = phoneNum;
+    			boolean flag = true;
+    			while(flag){
+    				phoneNum = phoneNum.replace("-", "");
+    				if(phoneNum.equals(numTmp)){
+    					flag = false;
+    				}else{
+    					numTmp = phoneNum;
+    				}
+    			}
+    			if(!TextUtils.isEmpty(phoneNum) && phoneNumberTemp.indexOf(phoneNum) != -1){
+    				continue;
+    			}
                 myMsg.setPhoneNumber(phoneNum);
                 Log.d("tag","msg_num:" + phoneNum);      
                 
@@ -132,10 +152,24 @@ public class MsgFragment extends Fragment {
         	        Log.d("tag","msg_name" + name);
         	        
         	    	pCur.close();
-        	        if(TextUtils.isEmpty(name)){
-        	        	name = phoneNum;
-        	        }
-        	    } 
+        	    }else{
+        	    	phoneNum = phoneNum.replace("+86", "");
+        	    	Cursor pCur2 = this.getActivity().getContentResolver().query(  
+            	            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] { "display_name"},  
+            	            ContactsContract.CommonDataKinds.Phone.NUMBER + " = ?",  
+            	            new String[] { phoneNum }, null);
+        	    	if (pCur2.moveToNext()) {  
+            	    	name = pCur2.getString(
+            	    			pCur2.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));  
+            	        Log.d("tag","msg_name" + name);
+            	        
+            	    	pCur2.close();
+            	    }
+        	    }
+
+    	        if(TextUtils.isEmpty(name)){
+    	        	name = phoneNum;
+    	        }
         	    myMsg.setName(name);
                 msgBody = cursor.getString(smsbodyColumn);
         		if(msgBody.length() > 40){
@@ -146,6 +180,7 @@ public class MsgFragment extends Fragment {
                 
                 myMsg.setType(cursor.getString(typeColumn));
                 listTemp.add(myMsg);
+                phoneNumberTemp += phoneNum;
             }
             cursor.close();
         }

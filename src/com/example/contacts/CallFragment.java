@@ -61,24 +61,24 @@ public class CallFragment extends Fragment {
 		listView = new ListView(getActivity());
 		adapter = new CallAdapter(getActivity(), R.layout.callslist, list);
 		listView.setAdapter(adapter);
-		
-//        listView.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				// TODO Auto-generated method stub
-//				MyCall call = list.get(position);
-//				Intent intent = new Intent(Intent.ACTION_CALL);
-//				String callUri = "tel:" + call.getNumber();
-//				Toast.makeText(getActivity(),callUri, Toast.LENGTH_SHORT).show();
-//				Log.d("tag","uri:" + callUri);
-//				intent.setData(Uri.parse(callUri));
-//				getActivity().startActivity(intent);
-//			}
-//		});
-		
 		fl.addView(listView);
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				MyCall call = list.get(position);
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				String callUri = "tel:" + call.getNumber();
+				//Toast.makeText(getActivity(),callUri, Toast.LENGTH_SHORT).show();
+				//Log.d("tag","uri:" + callUri);
+				intent.setData(Uri.parse(callUri));
+				getActivity().startActivity(intent);
+			}
+		});
+		
+		
 		
 		//新开一个线程读取聊天记录信息
 		new Thread(new Runnable() {
